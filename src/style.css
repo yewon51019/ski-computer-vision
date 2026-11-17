@@ -1,0 +1,62 @@
+/* ---------- 기본: 글꼴·색·머리글·메뉴 ---------- */
+:root { font-family: "Malgun Gothic", system-ui, sans-serif; color: #17363b; background: #f6faf9; }
+body { margin: 0; }
+header { background: #fff; border-bottom: 1px solid #c9d8d6; }
+nav, main { max-width: 62rem; margin: auto; padding: 1rem 1.5rem; }   /* 넓은 화면에서도 글 폭을 62rem으로 제한 */
+nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+a { color: #145e60; text-underline-offset: .35rem; }
+nav a { padding: .5rem 0; text-decoration: none; }
+nav a[aria-current] { font-weight: 700; text-decoration: underline; }   /* 지금 보고 있는 페이지 메뉴 강조 */
+main { padding-top: clamp(3rem, 9vw, 7rem); }                            /* 화면 폭에 따라 위 여백이 3~7rem 사이로 변함 */
+h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 0 0 1rem; }
+
+/* ---------- 주행 분석 페이지 (/analysis) ---------- */
+/* 분석 화면은 내용이 많아 제목과 위 여백을 작게 한다 */
+main:has(.analysis) { padding-top: 2rem; }
+main:has(.analysis) h1 { font-size: 1.75rem; }
+h2 { font-size: 1.25rem; }
+button { font: inherit; padding: .5rem 1rem; border: 1px solid #9fb8b5; border-radius: .5rem; background: #fff; color: inherit; cursor: pointer; }
+button:hover { background: #eaf3f2; }
+.error { color: #9c2b22; background: #fdecea; padding: .75rem 1rem; border-radius: .5rem; }   /* 오류 안내 상자 */
+
+/* 영상 올리기 칸 (점선 테두리) */
+.drop { display: grid; gap: .5rem; justify-items: center; padding: 2.5rem 1rem; border: 2px dashed #9fb8b5; border-radius: .75rem; background: #fff; text-align: center; }
+.drop span { color: #4d6a6d; }
+.working progress { width: 100%; height: 1rem; }                          /* 분석 진행 막대 */
+
+/* 스키어 후보 목록: 그림 카드를 가로로 늘어놓고 폭이 모자라면 다음 줄로 */
+.people { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; padding: 0; }
+.people button { display: grid; gap: .25rem; justify-items: center; padding: .75rem; }
+.people img { border-radius: .5rem; display: block; }
+.people small { color: #4d6a6d; }
+
+/* 결과 화면: 왼쪽 영상(2) : 오른쪽 수치(1). 좁은 화면(44rem 이하, 휴대폰)에서는 세로 한 줄로 */
+.result { display: grid; grid-template-columns: minmax(0, 2fr) minmax(12rem, 1fr); gap: 1.5rem; align-items: start; }
+@media (max-width: 44rem) { .result { grid-template-columns: minmax(0, 1fr); } }
+
+/* 영상과 관절선 캔버스를 같은 자리에 포갠다. 캔버스는 클릭을 영상(재생 조작)으로 흘려보낸다 */
+.stage { position: relative; line-height: 0; }
+.stage video { width: 100%; border-radius: .5rem; background: #000; }
+.stage canvas { position: absolute; inset: 0; pointer-events: none; }
+
+/* 타임라인: 회색 바탕 = 보류, 초록(i) = 분석 구간, 짙은 세로줄(b) = 지금 위치 */
+.timeline { position: relative; height: 1.25rem; margin-top: .75rem; border-radius: .25rem; background: #d5dfde; cursor: pointer; overflow: hidden; }
+.timeline i { position: absolute; top: 0; bottom: 0; background: #2f9e6e; }
+.timeline b { position: absolute; top: 0; bottom: 0; width: 2px; background: #17363b; }
+
+/* 범례의 작은 색 네모. 관절선 색은 src/overlay.js의 COLOURS와 같아야 한다 */
+.legend { font-size: .85rem; color: #4d6a6d; }
+.legend span { display: inline-block; width: .75rem; height: .75rem; border-radius: 2px; margin: 0 .25rem 0 .5rem; vertical-align: -1px; }
+.legend .on { background: #2f9e6e; margin-left: 0; }
+.legend .off { background: #d5dfde; }
+.legend .leftSide { background: #ff5a4f; margin-left: 0; }   /* 스키어의 왼쪽 = COLOURS.left */
+.legend .rightSide { background: #ffc233; }                  /* 스키어의 오른쪽 = COLOURS.right */
+.legend .centre { background: #33c8ff; }                     /* 어깨선·허리선·머리 = COLOURS.centre */
+
+/* 오른쪽 무릎 수치 카드. 글자색은 선 색과 같은 계열이되 흰 바탕에서 읽히게 조금 어둡게 */
+.numbers { display: grid; gap: .75rem; }
+.numbers p { margin: 0; padding: .75rem 1rem; background: #fff; border-radius: .5rem; border: 1px solid #c9d8d6; display: grid; }
+.numbers p span { font-size: .9rem; color: #4d6a6d; }
+.numbers strong { font-size: 1.75rem; }
+.leftKnee { color: #c7372d; }
+.rightKnee { color: #9a6b00; }
